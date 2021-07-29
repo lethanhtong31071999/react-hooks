@@ -6,6 +6,7 @@ function App() {
     <div className="app">
       <h1>Welcome to React Hooks</h1>
       <p>We will learning during 2 days. Never give up!!</p>
+      Something
     </div>
   );
 }
