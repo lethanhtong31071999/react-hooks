@@ -1,0 +1,12 @@
+.color-box {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 16px;
+    cursor: pointer;
+    border-radius: 5%;
+    transition: all 0.3s linear;
+    color: white
+}
