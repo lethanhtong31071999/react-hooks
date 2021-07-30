@@ -65,7 +65,6 @@ function App() {
 
   // Function for Pagination
   function handlePagination(newPage) {
-    console.log(newPage);
     setFilters({
       ...filters,
       _page: newPage,
