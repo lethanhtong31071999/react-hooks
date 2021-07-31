@@ -2,9 +2,9 @@ import "./App.scss";
 import ColorBox from "./components/BoxColor";
 import TodoList from "./components/TodoList";
 import { useState, useEffect } from "react";
-import TodoForm from "./components/TodoForm";
 import PostList from "./components/PostList";
 import Pagination from "./components/Pagination";
+import PostFiltersForm from "./components/PostFiltersForm";
 
 function App() {
   const initialState = [
@@ -44,11 +44,22 @@ function App() {
     setTodoList(cloneTodoList);
   }
 
+  // Function for transfer Object to ParamString
+  function objectToParamString(obj) {
+    return Object.entries(obj)
+      .map(function (arr) {
+        const [key, value] = arr;
+        return `${key}=${value}`;
+      })
+      .join("&");
+  }
+
   // Function of PostList
   useEffect(() => {
     async function fetchPostList() {
       try {
-        const requestUrl = `http://js-post-api.herokuapp.com/api/posts?_limit=${filters["_limit"]}&_page=${filters["_page"]}`;
+        const paramString = objectToParamString(filters);
+        const requestUrl = `http://js-post-api.herokuapp.com/api/posts?${paramString}`;
         console.log(requestUrl);
         const response = await fetch(requestUrl);
         const responseJSON = response.json();
@@ -59,7 +70,6 @@ function App() {
         console.log(error);
       }
     }
-
     fetchPostList();
   }, [filters]);
 
@@ -71,6 +81,16 @@ function App() {
     });
   }
 
+  // Function for PostFilterChange
+  function handleFiltersChange(newFilter) {
+    console.log(newFilter);
+    setFilters({
+      ...filters,
+      _page: 1,
+      title_like: newFilter["q"],
+    });
+  }
+
   return (
     <div className="app">
       <h1>Welcome to React Hooks</h1>
@@ -79,10 +99,10 @@ function App() {
       <ColorBox />
 
       <h2>Todo List Example</h2>
-      <TodoForm onTodoSubmit={handleOnTodoSubmit} />
       <TodoList todoList={todoList} onTodoClick={handleOnTodoClick} />
 
       <h2>Post List Example</h2>
+      <PostFiltersForm onSubmit={handleFiltersChange} />
       <PostList posts={postList} />
       <Pagination pagination={pagination} onPageChange={handlePagination} />
     </div>
