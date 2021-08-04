@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import PostList from "./components/PostList";
 import Pagination from "./components/Pagination";
 import PostFiltersForm from "./components/PostFiltersForm";
+import Clock from "./components/Clock";
+import BetterClock from "./components/BetterClock";
+import MagicBox from "./components/MagicBox";
 
 function App() {
   const initialState = [
@@ -19,6 +22,7 @@ function App() {
     _limit: 10,
     _page: 1,
   });
+  const [isHideClock, setIsHideClock] = useState(false);
 
   // Function of Box
   function handleOnTodoClick(todo) {
@@ -91,11 +95,28 @@ function App() {
     });
   }
 
+  // Function for hidding Clock
+  function changeClockState() {
+    setIsHideClock((previous) => !previous);
+  }
+
   return (
     <div className="app">
       <h1>Welcome to React Hooks</h1>
 
-      <h2>Color Box Example</h2>
+      <h2>Box Auto Change Color Example</h2>
+      {/* <MagicBox /> */}
+
+      <h2>Clock Example</h2>
+      {isHideClock ? null : <Clock />}
+      <button onClick={changeClockState}>
+        {isHideClock ? "Show Clock" : "Hide Clock"}
+      </button>
+
+      <h2>Clock better useClock</h2>
+      <BetterClock />
+
+      {/*<h2>Color Box Example</h2>
       <ColorBox />
 
       <h2>Todo List Example</h2>
@@ -104,7 +125,7 @@ function App() {
       <h2>Post List Example</h2>
       <PostFiltersForm onSubmit={handleFiltersChange} />
       <PostList posts={postList} />
-      <Pagination pagination={pagination} onPageChange={handlePagination} />
+      <Pagination pagination={pagination} onPageChange={handlePagination} />*/}
     </div>
   );
 }
